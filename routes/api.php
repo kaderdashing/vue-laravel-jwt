@@ -27,3 +27,8 @@ Route::post('privateInformations', function () {
     ]);
 })
 ->middleware('auth:sanctum');
+
+//Route::resource('Patients', 'App\Http\Controllers\PatientsController');
+
+Route::apiResource('employe-records', 'App\Http\Controllers\EmployeeRecordsController');
+
