@@ -6,18 +6,19 @@
       <table class="user-table">
   <thead>
     <tr>
-      <th>Nom</th>
-      <th>Email</th>
-      <th>Action</th>
+      <th style="text-align: center;">Nom</th>
+      <th style="text-align: center;">Email</th>
+      <th style="text-align: center;">Action</th>
     </tr>
   </thead>
   <tbody>
     <tr v-for="user in users" :key="user.id">
-      <td>{{ user.name }}</td>
+      <td style="text-align: center;">{{ user.name }}</td>
       <td>{{ user.email }}</td>
       <td>
         <div class="button-group">
-          <button>show</button>
+          <button class="show"><router-link class="show" :to="'/employe-records/show/' + user.id" exact-active-class="">show</router-link>
+</button>
           <button>edit</button>
           <button>delete</button>
         </div>
@@ -58,6 +59,20 @@ import Navbar from '../Navbar.vue';
   </script>
   <style scoped>
 
+.show {
+  text-decoration: none;
+  background-color: #209cee;
+  color: #fff;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.show:hover {
+  background-color: #1c87c9;
+}
 
 button {
   background-color: #4CAF50; /* Couleur de fond */

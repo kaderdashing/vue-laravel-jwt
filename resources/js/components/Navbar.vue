@@ -10,6 +10,7 @@
         <router-link class="navbar-item" :to="'/login'" exact :class="{ 'is-active': $route.path === '/login' }">Login</router-link>
         <router-link class="navbar-item" :to="'/register'" exact :class="{ 'is-active': $route.path === '/register' }">Register</router-link>
         <router-link class="navbar-item" :to="'/employe-records'" exact :class="{ 'is-active': $route.path === '/employe-records' }">Employer records</router-link>
+        <router-link class="navbar-item" :to="'/employe-records/create'" exact :class="{ 'is-active': $route.path === '/employe-records/create' }">Create</router-link>
 
       </div>
     </div>
