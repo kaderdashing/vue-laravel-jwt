@@ -19688,11 +19688,50 @@ __webpack_require__.r(__webpack_exports__);
         email: '',
         password: '',
         confirmPassword: ''
-      }
+      },
+      passwordNoMatch: true,
+      submitDisabled: true
     };
   },
   methods: {
-    submitForm: function submitForm() {// Handle form submission
+    checkPasswordMatch: function checkPasswordMatch() {
+      if (this.form.password !== this.form.confirmPassword) {
+        this.passwordNoMatch = true;
+        this.submitDisabled = true;
+      } else {
+        this.passwordNoMatch = false;
+        this.submitDisabled = false;
+      }
+    },
+    submitForm: function submitForm() {
+      // Récupérer les valeurs des champs
+      var name = this.form.name;
+      var email = this.form.email;
+      var password = this.form.password; // Envoyer la requête POST à l'API
+
+      fetch('http://127.0.0.1:8000/api/employe-records', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password
+        })
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  watch: {
+    form: {
+      handler: 'checkPasswordMatch',
+      deep: true
     }
   }
 });
@@ -20047,11 +20086,7 @@ var _hoisted_8 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_9 = {
-  "class": "form-group"
-};
-
-var _hoisted_10 = /*#__PURE__*/_withScopeId(function () {
+var _hoisted_9 = /*#__PURE__*/_withScopeId(function () {
   return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     "for": "confirmPassword"
   }, "Confirm Password", -1
@@ -20059,16 +20094,11 @@ var _hoisted_10 = /*#__PURE__*/_withScopeId(function () {
   );
 });
 
-var _hoisted_11 = /*#__PURE__*/_withScopeId(function () {
-  return /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    "class": "form-group"
-  }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit"
-  }, "Send")], -1
-  /* HOISTED */
-  );
-});
-
+var _hoisted_10 = {
+  key: 0,
+  "class": "help-block"
+};
+var _hoisted_11 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Navbar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Navbar");
 
@@ -20103,7 +20133,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     required: ""
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.password]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["input-wrapper", {
+      'has-error': $data.passwordNoMatch
+    }])
+  }, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "password",
     id: "confirmPassword",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
@@ -20112,7 +20146,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     required: ""
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.confirmPassword]])]), _hoisted_11], 32
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.form.confirmPassword]]), $data.passwordNoMatch ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, "Passwords do not match")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    disabled: $data.submitDisabled,
+    "class": "submit-button"
+  }, "Submit", 8
+  /* PROPS */
+  , _hoisted_11)], 32
   /* HYDRATE_EVENTS */
   )])]);
 }
@@ -20826,7 +20868,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.form-container[data-v-985686a4] {\r\n        max-width: 500px;\r\n        margin: 0 auto;\r\n        padding: 20px;\r\n        border: 1px solid #9dabeb;\r\n        border-radius: 5px;\r\n        background-color: #f2f2f2;\r\n        box-shadow: 0 0 10px rgba(0, 0, 0, 1.1);\n}\r\n\r\n    /* Style pour les labels */\nlabel[data-v-985686a4] {\r\n        display: block;\r\n        margin-bottom: 5px;\r\n        font-weight: bold;\n}\r\n\r\n    /* Style pour les inputs */\ninput[data-v-985686a4] {\r\n        display: block;\r\n        width: 100%;\r\n        padding: 10px;\r\n        margin-bottom: 20px;\r\n        border: none;\r\n        border-radius: 3px;\r\n        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);\r\n        font-size: 16px;\r\n        outline: none;\n}\ninput[data-v-985686a4]:focus {\r\n        box-shadow: inset 0 0 5px #2C73D2, 0 0 5px #2C73D2;\n}\r\n\r\n    /* Style pour le bouton */\nbutton[type=\"submit\"][data-v-985686a4] {\r\n        display: block;\r\n        width: 100%;\r\n        padding: 10px;\r\n        background-color: #007bff;\r\n        color: #fff;\r\n        border: none;\r\n        border-radius: 3px;\r\n        cursor: pointer;\r\n        font-size: 16px;\r\n        transition: background-color 0.3s ease;\n}\r\n\r\n    /* Style pour le bouton lorsqu'il est survolé */\nbutton[type=\"submit\"][data-v-985686a4]:hover {\r\n        background-color: #0069d9;\n}\r\n\r\n    /* Style pour le message d'erreur */\n.error-message[data-v-985686a4] {\r\n        color: red;\r\n        margin-top: 10px;\n}\n.create-form[data-v-985686a4] {\r\n  max-width: 500px;\r\n  margin: 0 auto;\n}\n.form-group[data-v-985686a4] {\r\n  margin-bottom: 1rem;\n}\nlabel[data-v-985686a4] {\r\n  display: block;\r\n  font-weight: bold;\r\n  margin-bottom: 0.5rem;\n}\ninput[type=\"text\"][data-v-985686a4],\r\ninput[type=\"email\"][data-v-985686a4],\r\ninput[type=\"password\"][data-v-985686a4] {\r\n  width: 100%;\r\n  padding: 0.5rem;\r\n  font-size: 1rem;\r\n  border: 1px solid #ccc;\r\n  border-radius: 3px;\n}\nbutton[type=\"submit\"][data-v-985686a4] {\r\n  background-color: #007bff;\r\n  color: #fff;\r\n  padding: 0.5rem 1rem;\r\n  border: none;\r\n  border-radius: 3px;\r\n  cursor: pointer;\n}\nbutton[type=\"submit\"][data-v-985686a4]:hover {\r\n  background-color: #0069d9;\n}\n.container[data-v-985686a4] {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\nh1[data-v-985686a4] {\r\n  text-align: center;\n}\r\n\r\n  ", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.input-wrapper[data-v-985686a4] {\r\n  position: relative;\r\n  margin-bottom: 20px;\n}\n.input-wrapper input[data-v-985686a4] {\r\n  display: block;\r\n  width: 100%;\r\n  padding: 8px;\r\n  font-size: 16px;\r\n  border: 2px solid #ddd;\n}\n.input-wrapper .help-block[data-v-985686a4] {\r\n  position: absolute;\r\n  bottom: -18px;\r\n  left: 0;\r\n  font-size: 12px;\r\n  color: red;\r\n  padding: 2px 6px;\r\n  border-radius: 4px;\r\n  width: 100%;\n}\n.input-wrapper.error input[data-v-985686a4] {\r\n  border-color: red;\n}\n.input-wrapper.error .help-block[data-v-985686a4] {\r\n  display: block;\n}\nbutton[type=\"submit\"][data-v-985686a4]:hover {\r\n        background-color: #0069d9;\n}\n.submit-button[data-v-985686a4] {\r\n      margin-top: 40px;\r\n      color: #fff;\r\n      border: none;\r\n      padding: 8px 16px;\r\n      cursor: pointer;\n}\n.submit-button[disabled][data-v-985686a4] {\r\n      background-color: red;\r\n      cursor: not-allowed;\n}\nbutton[disabled][data-v-985686a4]:hover {\r\n        background-color: #d90041;\n}\n.form-container[data-v-985686a4] {\r\n        max-width: 500px;\r\n        margin: 0 auto;\r\n        padding: 20px;\r\n        border: 1px solid #9dabeb;\r\n        border-radius: 5px;\r\n        background-color: #f2f2f2;\r\n        box-shadow: 0 0 10px rgba(0, 0, 0, 1.1);\n}\r\n\r\n    /* Style pour les labels */\nlabel[data-v-985686a4] {\r\n        display: block;\r\n        margin-bottom: 5px;\r\n        font-weight: bold;\n}\r\n    /* Style pour les inputs */\ninput[data-v-985686a4] {\r\n        display: block;\r\n        width: 100%;\r\n        padding: 10px;\r\n        margin-bottom: 20px;\r\n        border: none;\r\n        border-radius: 3px;\r\n        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);\r\n        font-size: 16px;\r\n        outline: none;\n}\ninput[data-v-985686a4]:focus {\r\n        box-shadow: inset 0 0 5px #2C73D2, 0 0 5px #2C73D2;\n}\r\n\r\n    /* Style pour le bouton */\nbutton[type=\"submit\"][data-v-985686a4] {\r\n        display: block;\r\n        width: 100%;\r\n        padding: 10px;\r\n        background-color: #007bff;\r\n        color: #fff;\r\n        border: none;\r\n        border-radius: 3px;\r\n        cursor: pointer;\r\n        font-size: 16px;\r\n        transition: background-color 0.3s ease;\n}\r\n\r\n    /* Style pour le bouton lorsqu'il est survolé */\r\n\r\n\r\n    /* Style pour le message d'erreur */\n.error-message[data-v-985686a4] {\r\n        color: red;\r\n        margin-top: 10px;\n}\n.password-no-match[data-v-985686a4] {\r\n  border: 1px solid red;\n}\n.create-form[data-v-985686a4] {\r\n  max-width: 500px;\r\n  margin: 0 auto;\n}\n.form-group[data-v-985686a4] {\r\n  margin-bottom: 1rem;\n}\nlabel[data-v-985686a4] {\r\n  display: block;\r\n  font-weight: bold;\r\n  margin-bottom: 0.5rem;\n}\ninput[type=\"text\"][data-v-985686a4],\r\ninput[type=\"email\"][data-v-985686a4],\r\ninput[type=\"password\"][data-v-985686a4] {\r\n  width: 100%;\r\n  padding: 0.5rem;\r\n  font-size: 1rem;\r\n  border: 1px solid #ccc;\r\n  border-radius: 3px;\n}\nbutton[type=\"submit\"][data-v-985686a4] {\r\n  background-color: #007bff;\r\n  color: #fff;\r\n  padding: 0.5rem 1rem;\r\n  border: none;\r\n  border-radius: 3px;\r\n  cursor: pointer;\n}\n.container[data-v-985686a4] {\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\n}\nh1[data-v-985686a4] {\r\n  text-align: center;\n}\r\n\r\n  ", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

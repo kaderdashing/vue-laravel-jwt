@@ -16,16 +16,22 @@
         <input type="email" id="email" v-model="form.email" required>
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" v-model="form.password" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" v-model="form.password" required>
       </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" v-model="form.confirmPassword" required>
-      </div>
-      <div class="form-group">
-        <button type="submit">Send</button>
-      </div>
+    
+
+
+          <div class="input-wrapper" :class="{'has-error': passwordNoMatch}">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" v-model="form.confirmPassword" required>
+            <div v-if="passwordNoMatch" class="help-block">Passwords do not match</div>
+           </div>
+
+   
+      <button type="submit" :disabled="submitDisabled" class="submit-button">Submit</button>
+
+
     </form>
   </div>
 
@@ -36,10 +42,10 @@
 
 import Navbar from '../Navbar.vue';
 
-    
 
+  
 export default {
-    name: "EmployeRecordsCreate",
+  name: "EmployeRecordsCreate",
     components: {
     Navbar,
   } ,
@@ -49,13 +55,51 @@ export default {
         name: '',
         email: '',
         password: '',
-        confirmPassword: '',
-      }
+        confirmPassword: ''
+      },
+      passwordNoMatch: true,
+      submitDisabled: true
     }
   },
   methods: {
+    checkPasswordMatch() {
+      if (this.form.password !== this.form.confirmPassword) {
+        this.passwordNoMatch = true;
+        this.submitDisabled = true;
+      } else {
+        this.passwordNoMatch = false;
+        this.submitDisabled = false;
+      }
+    } ,
     submitForm() {
-      // Handle form submission
+  // Récupérer les valeurs des champs
+  const name = this.form.name;
+  const email = this.form.email;
+  const password = this.form.password;
+
+  // Envoyer la requête POST à l'API
+  fetch('http://127.0.0.1:8000/api/employe-records', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ name, email, password })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}
+
+  },
+  watch: {
+    form: {
+      handler: 'checkPasswordMatch',
+      deep: true
     }
   }
 }
@@ -65,8 +109,62 @@ export default {
 
 
 
+
   </script>
   <style scoped>
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-wrapper input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #ddd;
+}
+
+.input-wrapper .help-block {
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  font-size: 12px;
+  color: red;
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: 100%;
+ 
+}
+
+.input-wrapper.error input {
+  border-color: red;
+}
+
+.input-wrapper.error .help-block {
+  display: block;
+}
+
+
+    button[type="submit"]:hover {
+        background-color: #0069d9;
+    }
+    .submit-button {
+      margin-top: 40px;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .submit-button[disabled] {
+      background-color: red;
+      cursor: not-allowed;
+    }
+    button[disabled]:hover {
+        background-color: #d90041;
+    }
 
 
 
@@ -86,7 +184,6 @@ export default {
         margin-bottom: 5px;
         font-weight: bold;
     }
-
     /* Style pour les inputs */
     input {
         display: block;
@@ -119,9 +216,7 @@ export default {
     }
 
     /* Style pour le bouton lorsqu'il est survolé */
-    button[type="submit"]:hover {
-        background-color: #0069d9;
-    }
+
 
     /* Style pour le message d'erreur */
     .error-message {
@@ -129,7 +224,9 @@ export default {
         margin-top: 10px;
     }
 
-
+    .password-no-match {
+  border: 1px solid red;
+}
 .create-form {
   max-width: 500px;
   margin: 0 auto;
@@ -164,9 +261,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-button[type="submit"]:hover {
-  background-color: #0069d9;
-}
+
 
 
 
