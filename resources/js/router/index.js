@@ -3,6 +3,7 @@ import Login from '../components/Login.vue';
 import Index from '../components/EmployeRecord/Index.vue';
 import Show from '../components/EmployeRecord/Show.vue';
 import Create from '../components/EmployeRecord/Create.vue';
+import Edit from '../components/EmployeRecord/Edit.vue';
 
 import Register from '../components/Register.vue';
 import Dashboard from '../components/Dashboard.vue';
@@ -23,20 +24,23 @@ const routes = [{
         name: 'EmployeRecords',
         component: Index,
         // meta: { requiresAuth: true }
+    }, {
+        path: '/employe-records/edit/:id',
+        name: 'EmployeRecordsEdit',
+        component: Edit,
+        // meta: { requiresAuth: true }
     },
     {
         path: '/employe-records/create',
         name: 'EmployeRecordsCreate',
         component: Create,
         // meta: { requiresAuth: true }
-    },
-    {
+    }, {
         path: '/employe-records/show/:id',
         name: 'EmployeRecordsShow',
         component: Show,
         // meta: { requiresAuth: true }
-    },
-    {
+    }, {
         path: '/',
         name: 'Dashboard',
         component: Dashboard,

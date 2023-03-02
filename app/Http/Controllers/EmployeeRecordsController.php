@@ -50,7 +50,8 @@ class EmployeeRecordsController extends Controller
          
          
                  return response()->json([
-                     'token' => $user->createToken(time())->plainTextToken
+                    'response' => " vous avez créé un user" 
+                    //'token' => $user->createToken(time())->plainTextToken
                  ]);
          
              
@@ -84,7 +85,7 @@ class EmployeeRecordsController extends Controller
            $request->validate([
                 'name' => 'string|max:255',
                 'email' => 'string|email|unique:users,email,'.$user->id,
-                'password' => 'string|min:8',
+       
             ]);  
 
             if ($request->filled('name')) {
@@ -94,9 +95,6 @@ class EmployeeRecordsController extends Controller
                 $user->email = $request->input('email');
             }
         
-            if ($request->filled('password')) {
-                $user->password = Hash::make($request->input('password'));
-            }
 
 /*
                 $user->name = $request->input('name');

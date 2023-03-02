@@ -19,7 +19,7 @@
         <div class="button-group">
           <button class="show"><router-link class="show" :to="'/employe-records/show/' + user.id" exact-active-class="">show</router-link>
 </button>
-          <button>edit</button>
+          <button class="edit"><router-link class="edit" :to="'/employe-records/edit/' + user.id" exact-active-class="">edit</router-link></button>
           <button>delete</button>
         </div>
       </td>
@@ -58,7 +58,21 @@ import Navbar from '../Navbar.vue';
 
   </script>
   <style scoped>
+.edit {
+  text-decoration: none;
+  background-color: #055f32;
+  color: #fff;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 8px 16px;
+}
 
+.edit:hover {
+  background-color: #1cc939;
+}
 .show {
   text-decoration: none;
   background-color: #209cee;
@@ -67,6 +81,7 @@ import Navbar from '../Navbar.vue';
   border: none;
   border-radius: 4px;
   cursor: pointer;
+
   transition: background-color 0.3s ease;
 }
 

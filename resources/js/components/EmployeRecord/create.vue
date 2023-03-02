@@ -1,9 +1,14 @@
 <template>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
     <div>
         <Navbar />
         <div class="container">
       <h1>Créer un Employer </h1>  </div>
-      
+      <div v-if="user" class="en-tete" >
+         <strong>{{ user.response }}</strong>
+         </div>
  
   <div class="create-form">
     <form @submit.prevent="submitForm">
@@ -57,9 +62,14 @@ export default {
         password: '',
         confirmPassword: ''
       },
-      passwordNoMatch: true,
-      submitDisabled: true
+      passwordNoMatch: false,
+      submitDisabled: false ,
+      user: null,
+      showNotification: false
     }
+  },
+  mounted() {
+    setTimeout(this.hideNotification, 10000);
   },
   methods: {
     checkPasswordMatch() {
@@ -71,6 +81,7 @@ export default {
         this.submitDisabled = false;
       }
     } ,
+
     submitForm() {
   // Récupérer les valeurs des champs
   const name = this.form.name;
@@ -87,7 +98,9 @@ export default {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
+   
+        this.user = data;
+    console.log(this.user);
 
   })
   .catch(error => {
@@ -112,6 +125,20 @@ export default {
 
   </script>
   <style scoped>
+.en-tete {
+  background-color: #39AD74;
+  border: 1px solid #ddd;
+  color: #ffffff;
+  text-align: center;
+  font-family: 'Inconsolata', monospace;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  margin-left: 20%;
+  margin-right: 150px;
+  margin-bottom: 20px;
+  width: 60%;
+}
 
 .input-wrapper {
   position: relative;
@@ -269,6 +296,8 @@ button[type="submit"] {
   display: flex;
   justify-content: center;
   align-items: center;
+  
+
 }
 
 h1 {
