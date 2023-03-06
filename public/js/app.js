@@ -19872,13 +19872,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Navbar.vue */ "./resources/js/components/Navbar.vue");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../store/index */ "./resources/js/store/index.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _Navbar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Navbar.vue */ "./resources/js/components/Navbar.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Index",
   components: {
-    Navbar: _Navbar_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Navbar: _Navbar_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['user'])),
   data: function data() {
     return {
       users: []
@@ -19887,10 +19898,9 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    fetch('http://127.0.0.1:8000/api/employe-records').then(function (response) {
-      return response.json();
-    }).then(function (data) {
-      return _this.users = data;
+    axios.get('api/employe-records').then(function (response) {
+      _this.users = response.data;
+      console.log(_store_index__WEBPACK_IMPORTED_MODULE_0__["default"].state.user.token);
     })["catch"](function (error) {
       return console.error(error);
     });
@@ -20018,13 +20028,24 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email,
         password: this.password
       }).then(function (res) {
-        _store__WEBPACK_IMPORTED_MODULE_1__["default"].state.user.token = res.data.token;
-        console.log(_store__WEBPACK_IMPORTED_MODULE_1__["default"].state.user.token);
+        // Afficher la valeur du token dans la console
+        console.log(res.data.token); // Mettre à jour le store avec le nouveau token
+
+        _store__WEBPACK_IMPORTED_MODULE_1__["default"].commit('setToken', res.data.token);
 
         _this.$router.push('/');
       })["catch"](function (err) {
         return console.log(err);
       });
+    }
+  },
+  created: function created() {
+    // Récupérer le token depuis le stockage local lorsque l'application se charge
+    var token = localStorage.getItem('token');
+
+    if (token) {
+      // Mettre à jour le store avec le token récupéré
+      _store__WEBPACK_IMPORTED_MODULE_1__["default"].commit('setToken', token);
     }
   }
 });
@@ -21062,18 +21083,24 @@ var routes = [{
 }, {
   path: '/employe-records',
   name: 'EmployeRecords',
-  component: _components_EmployeRecord_Index_vue__WEBPACK_IMPORTED_MODULE_1__["default"] // meta: { requiresAuth: true }
-
+  component: _components_EmployeRecord_Index_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+  meta: {
+    requiresAuth: true
+  }
 }, {
   path: '/employe-records/edit/:id',
   name: 'EmployeRecordsEdit',
-  component: _components_EmployeRecord_Edit_vue__WEBPACK_IMPORTED_MODULE_4__["default"] // meta: { requiresAuth: true }
-
+  component: _components_EmployeRecord_Edit_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+  meta: {
+    requiresAuth: true
+  }
 }, {
   path: '/employe-records/create',
   name: 'EmployeRecordsCreate',
-  component: _components_EmployeRecord_Create_vue__WEBPACK_IMPORTED_MODULE_3__["default"] // meta: { requiresAuth: true }
-
+  component: _components_EmployeRecord_Create_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+  meta: {
+    requiresAuth: true
+  }
 }, {
   path: '/employe-records/show/:id',
   name: 'EmployeRecordsShow',
@@ -21122,6 +21149,11 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_0__.createStore)({
     user: {
       data: {},
       token: null
+    }
+  },
+  mutations: {
+    setToken: function setToken(state, token) {
+      state.user.token = token;
     }
   }
 });

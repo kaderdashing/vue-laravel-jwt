@@ -30,19 +30,33 @@ export default {
         }
     },
     methods: {
-        login() {
-            axios.post('api/login', {
-                email: this.email,
-                password: this.password
+    login() {
+        axios.post('api/login', {
+            email: this.email,
+            password: this.password
+        })
+            .then(res => {
+                // Afficher la valeur du token dans la console
+                console.log(res.data.token);
+
+                // Mettre à jour le store avec le nouveau token
+                store.commit('setToken', res.data.token);
+
+                this.$router.push('/')
             })
-                .then(res => {
-                    store.state.user.token = res.data.token;
-                    console.log(store.state.user.token);
-                    this.$router.push('/')
-                })
-                .catch(err => console.log(err));
-        }
+            .catch(err => console.log(err));
     }
+}
+,
+created() {
+    // Récupérer le token depuis le stockage local lorsque l'application se charge
+    const token = localStorage.getItem('token');
+    if (token) {
+        // Mettre à jour le store avec le token récupéré
+        store.commit('setToken', token);
+    }
+}
+
 }
 </script>
 

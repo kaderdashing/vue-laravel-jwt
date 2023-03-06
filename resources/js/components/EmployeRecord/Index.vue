@@ -30,12 +30,12 @@
     </div>
   </template>
   
-  <script>
+<script>
 
+import store from '../../store/index' ;
+
+import { mapState } from 'vuex';
 import Navbar from '../Navbar.vue';
-
-    
-
 
 
   export default {
@@ -43,17 +43,25 @@ import Navbar from '../Navbar.vue';
     components: {
     Navbar,
   },
+  computed: {
+    ...mapState(['user'])
+  },
   data() {
     return {
       users: []
     };
   },
   created() {
-    fetch('http://127.0.0.1:8000/api/employe-records')
-      .then(response => response.json())
-      .then(data => this.users = data)
-      .catch(error => console.error(error));
-  }
+  axios.get('api/employe-records')
+    .then(response => {
+      this.users = response.data;
+      console.log(store.state.user.token);
+    })
+    .catch(error => console.error(error));
+}
+
+
+
 }
 
   </script>

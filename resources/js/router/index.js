@@ -23,18 +23,18 @@ const routes = [{
         path: '/employe-records',
         name: 'EmployeRecords',
         component: Index,
-        // meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
     }, {
         path: '/employe-records/edit/:id',
         name: 'EmployeRecordsEdit',
         component: Edit,
-        // meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
     },
     {
         path: '/employe-records/create',
         name: 'EmployeRecordsCreate',
         component: Create,
-        // meta: { requiresAuth: true }
+        meta: { requiresAuth: true }
     }, {
         path: '/employe-records/show/:id',
         name: 'EmployeRecordsShow',
